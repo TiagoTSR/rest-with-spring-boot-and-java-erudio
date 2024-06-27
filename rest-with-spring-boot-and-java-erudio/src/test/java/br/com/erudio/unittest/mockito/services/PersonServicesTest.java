@@ -53,7 +53,7 @@ class PersonServicesTest {
 		
 		var result = service.findById(1L);
 		assertNotNull(result);
-		assertNotNull(result.getKey());
+		assertNotNull(result.getId());
 		assertNotNull(result.getLinks());
 		
 		assertTrue(result.toString().contains("links: [</api/person/v1/1>;rel=\"self\"]"));
@@ -72,14 +72,14 @@ class PersonServicesTest {
 		persisted.setId(1L);
 		
 		PersonVO vo = input.mockVO(1);
-		vo.setKey(1L);
+		vo.setId(1L);
 		
 		when(repository.save(entity)).thenReturn(persisted);
 		
 		var result = service.create(vo);
 		
 		assertNotNull(result);
-		assertNotNull(result.getKey());
+		assertNotNull(result.getId());
 		assertNotNull(result.getLinks());
 		
 		assertTrue(result.toString().contains("links: [</api/person/v1/1>;rel=\"self\"]"));
@@ -110,7 +110,7 @@ class PersonServicesTest {
 		persisted.setId(1L);
 		
 		PersonVO vo = input.mockVO(1);
-		vo.setKey(1L);
+		vo.setId(1L);
 		
 
 		when(repository.findById(1L)).thenReturn(Optional.of(entity));
@@ -119,7 +119,7 @@ class PersonServicesTest {
 		var result = service.update(vo);
 		
 		assertNotNull(result);
-		assertNotNull(result.getKey());
+		assertNotNull(result.getId());
 		assertNotNull(result.getLinks());
 		
 		assertTrue(result.toString().contains("links: [</api/person/v1/1>;rel=\"self\"]"));
@@ -167,7 +167,7 @@ class PersonServicesTest {
 		var personOne = people.get(1);
 		
 		assertNotNull(personOne);
-		assertNotNull(personOne.getKey());
+		assertNotNull(personOne.getId());
 		assertNotNull(personOne.getLinks());
 		
 		assertTrue(personOne.toString().contains("links: [</api/person/v1/1>;rel=\"self\"]"));
@@ -179,7 +179,7 @@ class PersonServicesTest {
 		var personFour = people.get(4);
 		
 		assertNotNull(personFour);
-		assertNotNull(personFour.getKey());
+		assertNotNull(personFour.getId());
 		assertNotNull(personFour.getLinks());
 		
 		assertTrue(personFour.toString().contains("links: [</api/person/v1/4>;rel=\"self\"]"));
@@ -191,7 +191,7 @@ class PersonServicesTest {
 		var personSeven = people.get(7);
 		
 		assertNotNull(personSeven);
-		assertNotNull(personSeven.getKey());
+		assertNotNull(personSeven.getId());
 		assertNotNull(personSeven.getLinks());
 		
 		assertTrue(personSeven.toString().contains("links: [</api/person/v1/7>;rel=\"self\"]"));
