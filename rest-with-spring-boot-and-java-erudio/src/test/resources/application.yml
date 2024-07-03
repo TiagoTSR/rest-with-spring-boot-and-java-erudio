@@ -6,7 +6,7 @@ security:
   jwt:
     token:
       secret-key: 53cr37
-      expire-lenght: 3600000
+      expire-length: 3600000
 spring:
   application:
     name: rest-with-spring-boot-and-java-erudio
@@ -16,8 +16,10 @@ spring:
     hibernate:
      ddl-auto: none
     open-in-view: false
-    show-sql: false
+    show-sql: true
 springdoc:
-    pathsToMatch: /api/**/v1/**
-    swagger-ui:
-      use-root-path: true
+  pathsToMatch:
+    - /auth/**
+    - /api/**/v1/**
+  swagger-ui:
+    use-root-path: true
