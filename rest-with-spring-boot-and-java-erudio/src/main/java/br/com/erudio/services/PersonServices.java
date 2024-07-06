@@ -47,15 +47,15 @@ public class PersonServices {
 	}
 	
 	public PersonVO create(PersonVO person) {
-
-		if (person == null) throw new RequiredObjectIsNullException(null);
-		
-		logger.info("Creating one person!");
-		var entity = DozerMapper.parseObject(person, Person.class);
-		var vo =  DozerMapper.parseObject(repository.save(entity), PersonVO.class);
-		vo.add(linkTo(methodOn(PersonController.class).findById(vo.getId())).withSelfRel());
-		return vo;
+	    if (person == null) throw new RequiredObjectIsNullException("It is not allowed to persist a null object!");
+	    
+	    logger.info("Creating one person!");
+	    var entity = DozerMapper.parseObject(person, Person.class);
+	    var vo =  DozerMapper.parseObject(repository.save(entity), PersonVO.class);
+	    vo.add(linkTo(methodOn(PersonController.class).findById(vo.getId())).withSelfRel());
+	    return vo;
 	}
+
 	
 	public PersonVO update(PersonVO person) {
 
