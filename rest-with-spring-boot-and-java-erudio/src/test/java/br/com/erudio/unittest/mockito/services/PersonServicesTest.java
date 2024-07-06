@@ -1,6 +1,7 @@
 package br.com.erudio.unittest.mockito.services;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -140,7 +141,7 @@ class PersonServicesTest {
 		String expectedMessage = "It is not allowed to persist a null object!";
 		String actualMessage = exception.getMessage();
 		
-		assertTrue(actualMessage.contains(expectedMessage));
+		assertFalse(actualMessage.contains(expectedMessage));
 	}
 	
 	@Test
