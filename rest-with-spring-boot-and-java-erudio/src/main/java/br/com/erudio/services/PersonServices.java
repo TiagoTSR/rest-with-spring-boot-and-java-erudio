@@ -1,20 +1,21 @@
 package br.com.erudio.services;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
-
 import java.util.List;
 import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import org.springframework.stereotype.Service;
 
 import br.com.erudio.controllers.PersonController;
 import br.com.erudio.data.vo.v1.PersonVO;
 import br.com.erudio.exceptions.RequiredObjectIsNullException;
+import br.com.erudio.exceptions.ResourceNotFoundException;
 import br.com.erudio.mapper.DozerMapper;
 import br.com.erudio.model.Person;
 import br.com.erudio.repositories.PersonRepository;
+import jakarta.transaction.Transactional;
 
 @Service
 public class PersonServices {
@@ -31,7 +32,7 @@ public class PersonServices {
 		var persons = DozerMapper.parseListObjects(repository.findAll(), PersonVO.class);
 		persons
 			.stream()
-			.forEach(p -> p.add(linkTo(methodOn(PersonController.class).findById(p.getId())).withSelfRel()));
+			.forEach(p -> p.add(linkTo(methodOn(PersonController.class).findById(p.getKey())).withSelfRel()));
 		return persons;
 	}
 
@@ -40,22 +41,22 @@ public class PersonServices {
 		logger.info("Finding one person!");
 		
 		var entity = repository.findById(id)
-			.orElseThrow(() -> new RequiredObjectIsNullException("No records found for this ID!"));
+			.orElseThrow(() -> new ResourceNotFoundException("No records found for this ID!"));
 		var vo = DozerMapper.parseObject(entity, PersonVO.class);
 		vo.add(linkTo(methodOn(PersonController.class).findById(id)).withSelfRel());
 		return vo;
 	}
 	
 	public PersonVO create(PersonVO person) {
-	    if (person == null) throw new RequiredObjectIsNullException("It is not allowed to persist a null object!");
-	    
-	    logger.info("Creating one person!");
-	    var entity = DozerMapper.parseObject(person, Person.class);
-	    var vo =  DozerMapper.parseObject(repository.save(entity), PersonVO.class);
-	    vo.add(linkTo(methodOn(PersonController.class).findById(vo.getId())).withSelfRel());
-	    return vo;
-	}
 
+		if (person == null) throw new RequiredObjectIsNullException();
+		
+		logger.info("Creating one person!");
+		var entity = DozerMapper.parseObject(person, Person.class);
+		var vo =  DozerMapper.parseObject(repository.save(entity), PersonVO.class);
+		vo.add(linkTo(methodOn(PersonController.class).findById(vo.getKey())).withSelfRel());
+		return vo;
+	}
 	
 	public PersonVO update(PersonVO person) {
 
@@ -63,8 +64,8 @@ public class PersonServices {
 		
 		logger.info("Updating one person!");
 		
-		var entity = repository.findById(person.getId())
-			.orElseThrow(() -> new RequiredObjectIsNullException("No records found for this ID!"));
+		var entity = repository.findById(person.getKey())
+			.orElseThrow(() -> new ResourceNotFoundException("No records found for this ID!"));
 
 		entity.setFirstName(person.getFirstName());
 		entity.setLastName(person.getLastName());
@@ -72,7 +73,21 @@ public class PersonServices {
 		entity.setGender(person.getGender());
 		
 		var vo =  DozerMapper.parseObject(repository.save(entity), PersonVO.class);
-		vo.add(linkTo(methodOn(PersonController.class).findById(vo.getId())).withSelfRel());
+		vo.add(linkTo(methodOn(PersonController.class).findById(vo.getKey())).withSelfRel());
+		return vo;
+	}
+	
+	@Transactional
+	public PersonVO disablePerson(Long id) {
+		
+		logger.info("Disabling one person!");
+		
+		repository.disablePerson(id);
+		
+		var entity = repository.findById(id)
+			.orElseThrow(() -> new ResourceNotFoundException("No records found for this ID!"));
+		var vo = DozerMapper.parseObject(entity, PersonVO.class);
+		vo.add(linkTo(methodOn(PersonController.class).findById(id)).withSelfRel());
 		return vo;
 	}
 	
@@ -81,7 +96,7 @@ public class PersonServices {
 		logger.info("Deleting one person!");
 		
 		var entity = repository.findById(id)
-				.orElseThrow(() -> new RequiredObjectIsNullException("No records found for this ID!"));
+				.orElseThrow(() -> new ResourceNotFoundException("No records found for this ID!"));
 		repository.delete(entity);
 	}
 }
