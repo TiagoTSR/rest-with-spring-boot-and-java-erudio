@@ -98,7 +98,7 @@ public class PersonController {
 				? Direction.DESC : Direction.ASC;
 		
 		Pageable pageable = PageRequest.of(page, size, Sort.by(sortDirection, "firstName"));
-		return ResponseEntity.ok(service.findAll(pageable));
+		return ResponseEntity.ok(service.findPersonByName(firstName, pageable));
 	}
 	
 	@CrossOrigin(origins = "http://localhost:8080")

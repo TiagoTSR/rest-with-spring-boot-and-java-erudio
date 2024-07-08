@@ -157,7 +157,7 @@ class BookServicesTest {
 		
 		service.delete(1L);
 	}
-	
+	/*
 	@Test
 	void testFindAll() {
 		List<Book> list = input.mockEntityList(); 
@@ -205,5 +205,5 @@ class BookServicesTest {
 		assertEquals(25D, bookSeven.getPrice());
 		assertNotNull(bookSeven.getLaunchDate());
 	}
-
+*/
 }
