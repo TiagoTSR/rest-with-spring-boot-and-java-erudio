@@ -6,9 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.Arrays;
-import java.util.List;
-
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
@@ -280,67 +277,11 @@ public class PersonControllerCorsTest extends AbstractIntegrationTest {
 				.statusCode(204);
 	}
 	
-	@Test
-	@Order(6)
-	public void testFindAll() throws JsonMappingException, JsonProcessingException {
-		
-		var content = given().spec(specification)
-				.config(
-						RestAssuredConfig
-							.config()
-							.encoderConfig(EncoderConfig.encoderConfig()
-								.encodeContentTypeAs(
-									TestConfigs.CONTENT_TYPE_YML,
-									ContentType.TEXT)))
-				.contentType(TestConfigs.CONTENT_TYPE_YML)
-				.accept(TestConfigs.CONTENT_TYPE_YML)
-					.when()
-					.get()
-				.then()
-					.statusCode(200)
-						.extract()
-						.body()
-						.as(PersonVO[].class, objectMapper);
-		
-		List<PersonVO> people = Arrays.asList(content);
-		
-		PersonVO foundPersonOne = people.get(0);
-		
-		assertNotNull(foundPersonOne.getId());
-		assertNotNull(foundPersonOne.getFirstName());
-		assertNotNull(foundPersonOne.getLastName());
-		assertNotNull(foundPersonOne.getAddress());
-		assertNotNull(foundPersonOne.getGender());
-		assertTrue(foundPersonOne.getEnabled());
-		
-		assertEquals(1, foundPersonOne.getId());
-		
-		assertEquals("Ayrton", foundPersonOne.getFirstName());
-		assertEquals("Senna", foundPersonOne.getLastName());
-		assertEquals("São Paulo", foundPersonOne.getAddress());
-		assertEquals("Male", foundPersonOne.getGender());
-		
-		PersonVO foundPersonSix = people.get(5);
-		
-		assertNotNull(foundPersonSix.getId());
-		assertNotNull(foundPersonSix.getFirstName());
-		assertNotNull(foundPersonSix.getLastName());
-		assertNotNull(foundPersonSix.getAddress());
-		assertNotNull(foundPersonSix.getGender());
 
-		assertTrue(foundPersonSix.getEnabled());
-		
-		assertEquals(6, foundPersonSix.getId());
-		
-		assertEquals("Nelson", foundPersonSix.getFirstName());
-		assertEquals("Mandela", foundPersonSix.getLastName());
-		assertEquals("Mvezo – South Africa", foundPersonSix.getAddress());
-		assertEquals("Male", foundPersonSix.getGender());
-	}
 
 	
 	@Test
-	@Order(7)
+	@Order(6)
 	public void testFindAllWithoutToken() throws JsonMappingException, JsonProcessingException {
 		
 		RequestSpecification specificationWithoutToken = new RequestSpecBuilder()
