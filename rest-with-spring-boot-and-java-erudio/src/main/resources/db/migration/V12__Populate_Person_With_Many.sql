@@ -421,7 +421,7 @@ insert into person (first_name, last_name, enabled, gender, address) values
 		 ('Martguerita', 'Ryland', b'1', 'Female', '77 American Ash Street'),
 		 ('Renaldo', 'Witul', b'1', 'Male', '476 Pennsylvania Point'),
 		 ('Carmine', 'Celand', b'1', 'Male', '65897 Southridge Center'),
-		 ('Alfy', 'Hartas', b'0', 'Male', '99378 Hanson Alley'),
+		 ('Alfy', 'Hartas', b'1', 'Male', '99378 Hanson Alley'),
 		 ('Ibrahim', 'Harvard', b'1', 'Male', '7 Gateway Court'),
 		 ('Rey', 'Sayce', b'1', 'Male', '35 Crowley Hill'),
 		 ('Britte', 'Turbayne', b'0', 'Female', '427 Stuart Avenue'),
