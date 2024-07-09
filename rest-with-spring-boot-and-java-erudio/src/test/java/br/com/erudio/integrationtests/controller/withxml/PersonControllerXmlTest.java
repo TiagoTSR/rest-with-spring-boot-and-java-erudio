@@ -22,7 +22,6 @@ import br.com.erudio.configs.TestConfigs;
 import br.com.erudio.configs.integrationtests.vo.AccountCredentialsVO;
 import br.com.erudio.configs.integrationtests.vo.PersonVO;
 import br.com.erudio.configs.integrationtests.vo.pagedmodels.PagedModelPerson;
-import br.com.erudio.configs.integrationtests.vo.wrappers.WrapperPersonVO;
 import br.com.erudio.data.vo.v1.security.TokenVO;
 import br.com.erudio.integrationtests.testcontainers.AbstractIntegrationTest;
 import io.restassured.builder.RequestSpecBuilder;
