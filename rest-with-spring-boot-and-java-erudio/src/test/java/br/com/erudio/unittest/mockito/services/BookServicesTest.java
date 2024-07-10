@@ -1,7 +1,6 @@
 package br.com.erudio.unittest.mockito.services;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -18,8 +17,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
-/*import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;*/
 
 import br.com.erudio.data.vo.v1.BookVO;
 import br.com.erudio.exceptions.RequiredObjectIsNullException;
@@ -33,8 +30,6 @@ import br.com.erudio.unittests.mapper.mocks.MockBook;
 class BookServicesTest {
 
 	MockBook input;
-	
-	/*private static final Logger logger = LoggerFactory.getLogger(BookServicesTest.class);*/
 	
 	@InjectMocks
 	private BookServices service;
@@ -102,7 +97,7 @@ class BookServicesTest {
 		String expectedMessage = "It is not allowed to persist a null object!";
 		String actualMessage = exception.getMessage();
 		
-		assertFalse(actualMessage.contains(expectedMessage));
+		assertTrue(actualMessage.contains(expectedMessage));
 	}
 
 
@@ -137,15 +132,15 @@ class BookServicesTest {
 	
 	@Test
 	void testUpdateWithNullBook() {
-	    Exception exception = assertThrows(RequiredObjectIsNullException.class, () -> service.update(null));
-
-	    String expectedMessage = "It is not allowed to persist a null object!";
+		Exception exception = assertThrows(RequiredObjectIsNullException.class, () -> {
+			service.update(null);
+		});
+		
+		String expectedMessage = "It is not allowed to persist a null object!";
 		String actualMessage = exception.getMessage();
 		
-		assertFalse(actualMessage.contains(expectedMessage));
+		assertTrue(actualMessage.contains(expectedMessage));
 	}
-
-
 	
 	@Test
 	void testDelete() {
@@ -156,53 +151,4 @@ class BookServicesTest {
 		
 		service.delete(1L);
 	}
-	/*
-	@Test
-	void testFindAll() {
-		List<Book> list = input.mockEntityList(); 
-		
-		when(repository.findAll()).thenReturn(list);
-		
-		var people = service.findAll();
-		
-		assertNotNull(people);
-		assertEquals(14, people.size());
-		
-		var bookOne = people.get(1);
-		
-		assertNotNull(bookOne);
-		assertNotNull(bookOne.getKey());
-		assertNotNull(bookOne.getLinks());
-		
-		assertTrue(bookOne.toString().contains("links: [</api/book/v1/1>;rel=\"self\"]"));
-		assertEquals("Some Author1", bookOne.getAuthor());
-		assertEquals("Some Title1", bookOne.getTitle());
-		assertEquals(25D, bookOne.getPrice());
-		assertNotNull(bookOne.getLaunchDate());
-		
-		var bookFour = people.get(4);
-		
-		assertNotNull(bookFour);
-		assertNotNull(bookFour.getKey());
-		assertNotNull(bookFour.getLinks());
-		
-		assertTrue(bookFour.toString().contains("links: [</api/book/v1/4>;rel=\"self\"]"));
-		assertEquals("Some Author4", bookFour.getAuthor());
-		assertEquals("Some Title4", bookFour.getTitle());
-		assertEquals(25D, bookFour.getPrice());
-		assertNotNull(bookFour.getLaunchDate());
-		
-		var bookSeven = people.get(7);
-		
-		assertNotNull(bookSeven);
-		assertNotNull(bookSeven.getKey());
-		assertNotNull(bookSeven.getLinks());
-		
-		assertTrue(bookSeven.toString().contains("links: [</api/book/v1/7>;rel=\"self\"]"));
-		assertEquals("Some Author7", bookSeven.getAuthor());
-		assertEquals("Some Title7", bookSeven.getTitle());
-		assertEquals(25D, bookSeven.getPrice());
-		assertNotNull(bookSeven.getLaunchDate());
-	}
-*/
 }
